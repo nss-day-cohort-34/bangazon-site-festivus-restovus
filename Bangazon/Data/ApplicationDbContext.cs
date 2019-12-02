@@ -77,8 +77,7 @@ namespace Bangazon.Data {
                 SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                 Id = "00000000-ffff-ffff-ffff-ffffffffffff1"
             };
-            var passwordHash2 = new PasswordHasher<ApplicationUser>();
-            user.PasswordHash = passwordHash.HashPassword(user2, "Admin8*");
+            user2.PasswordHash = passwordHash.HashPassword(user2, "Admin8*");
             modelBuilder.Entity<ApplicationUser>().HasData(user2);
 
             ApplicationUser user3 = new ApplicationUser
@@ -95,8 +94,7 @@ namespace Bangazon.Data {
                 SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794579",
                 Id = "00000000-ffff-ffff-ffff-ffffffffffff2"
             };
-            var passwordHash3 = new PasswordHasher<ApplicationUser>();
-            user.PasswordHash = passwordHash.HashPassword(user3, "Admin8*");
+            user3.PasswordHash = passwordHash.HashPassword(user3, "Admin8*");
             modelBuilder.Entity<ApplicationUser>().HasData(user3);
 
             ApplicationUser user4 = new ApplicationUser
@@ -113,8 +111,7 @@ namespace Bangazon.Data {
                 SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794570",
                 Id = "00000000-ffff-ffff-ffff-ffffffffffff3"
             };
-            var passwordHash4 = new PasswordHasher<ApplicationUser>();
-            user.PasswordHash = passwordHash.HashPassword(user4, "Admin8*");
+            user4.PasswordHash = passwordHash.HashPassword(user4, "Admin8*");
             modelBuilder.Entity<ApplicationUser>().HasData(user4);
 
             ApplicationUser user5 = new ApplicationUser
@@ -131,8 +128,7 @@ namespace Bangazon.Data {
                 SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794571",
                 Id = "00000000-ffff-ffff-ffff-ffffffffffff4"
             };
-            var passwordHash5 = new PasswordHasher<ApplicationUser>();
-            user.PasswordHash = passwordHash.HashPassword(user5, "Admin8*");
+            user5.PasswordHash = passwordHash.HashPassword(user5, "Admin8*");
             modelBuilder.Entity<ApplicationUser>().HasData(user5);
 
             modelBuilder.Entity<PaymentType> ().HasData (
