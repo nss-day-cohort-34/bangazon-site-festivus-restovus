@@ -63,6 +63,78 @@ namespace Bangazon.Data {
             user.PasswordHash = passwordHash.HashPassword(user, "Admin8*");
             modelBuilder.Entity<ApplicationUser>().HasData(user);
 
+            ApplicationUser user2 = new ApplicationUser
+            {
+                FirstName = "Joe",
+                LastName = "Snyder",
+                StreetAddress = "100 Infinity Way",
+                UserName = "joe@gmail.com",
+                NormalizedUserName = "JOE@GMAIL.COM",
+                Email = "joe@gmail.com",
+                NormalizedEmail = "JOE@GMAIL.COM",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
+                Id = "00000000-ffff-ffff-ffff-ffffffffffff1"
+            };
+            var passwordHash2 = new PasswordHasher<ApplicationUser>();
+            user.PasswordHash = passwordHash.HashPassword(user2, "Admin8*");
+            modelBuilder.Entity<ApplicationUser>().HasData(user2);
+
+            ApplicationUser user3 = new ApplicationUser
+            {
+                FirstName = "Allie",
+                LastName = "Patton",
+                StreetAddress = "300 Main Street",
+                UserName = "allie@gmail.com",
+                NormalizedUserName = "ALLIE@GMAIL.COM",
+                Email = "allie@gmail.com",
+                NormalizedEmail = "ALLIE@GMAIL.COM",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794579",
+                Id = "00000000-ffff-ffff-ffff-ffffffffffff2"
+            };
+            var passwordHash3 = new PasswordHasher<ApplicationUser>();
+            user.PasswordHash = passwordHash.HashPassword(user3, "Admin8*");
+            modelBuilder.Entity<ApplicationUser>().HasData(user3);
+
+            ApplicationUser user4 = new ApplicationUser
+            {
+                FirstName = "Ellie",
+                LastName = "Ash",
+                StreetAddress = "400 Main Street",
+                UserName = "ellie@gmail.com",
+                NormalizedUserName = "ELLIE@GMAIL.COM",
+                Email = "ellie@gmail.com",
+                NormalizedEmail = "ELLIE@GMAIL.COM",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794570",
+                Id = "00000000-ffff-ffff-ffff-ffffffffffff3"
+            };
+            var passwordHash4 = new PasswordHasher<ApplicationUser>();
+            user.PasswordHash = passwordHash.HashPassword(user4, "Admin8*");
+            modelBuilder.Entity<ApplicationUser>().HasData(user4);
+
+            ApplicationUser user5 = new ApplicationUser
+            {
+                FirstName = "Eric",
+                LastName = "Taylor",
+                StreetAddress = "600 Locust Street",
+                UserName = "eric@gmail.com",
+                NormalizedUserName = "ERIC@GMAIL.COM",
+                Email = "eric@gmail.com",
+                NormalizedEmail = "ERIC@GMAIL.COM",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794571",
+                Id = "00000000-ffff-ffff-ffff-ffffffffffff4"
+            };
+            var passwordHash5 = new PasswordHasher<ApplicationUser>();
+            user.PasswordHash = passwordHash.HashPassword(user5, "Admin8*");
+            modelBuilder.Entity<ApplicationUser>().HasData(user5);
+
             modelBuilder.Entity<PaymentType> ().HasData (
                 new PaymentType()
                 {
@@ -77,6 +149,27 @@ namespace Bangazon.Data {
                     UserId = user.Id,
                     Description = "Discover",
                     AccountNumber = "4102948572991"
+                },
+                new PaymentType()
+                {
+                    PaymentTypeId = 3,
+                    UserId = user2.Id,
+                    Description = "Visa",
+                    AccountNumber = "4102948572992"
+                },
+                new PaymentType()
+                {
+                    PaymentTypeId = 4,
+                    UserId = user3.Id,
+                    Description = "Mastercard",
+                    AccountNumber = "4102948572993"
+                },
+                new PaymentType()
+                {
+                    PaymentTypeId = 5,
+                    UserId = user4.Id,
+                    Description = "Discover",
+                    AccountNumber = "4102948572994"
                 }
             );
 
@@ -138,7 +231,7 @@ namespace Bangazon.Data {
                 {
                     ProductId = 1,
                     ProductTypeId = 1,
-                    UserId = user.Id,
+                    UserId = user2.Id,
                     Description = "It flies high",
                     Title = "Kite",
                     Quantity = 100,
@@ -148,7 +241,7 @@ namespace Bangazon.Data {
                 {
                     ProductId = 2,
                     ProductTypeId = 2,
-                    UserId = user.Id,
+                    UserId = user2.Id,
                     Description = "It rolls fast",
                     Title = "Wheelbarrow",
                     Quantity = 5,
@@ -158,7 +251,7 @@ namespace Bangazon.Data {
                 {
                     ProductId = 3,
                     ProductTypeId = 3,
-                    UserId = user.Id,
+                    UserId = user3.Id,
                     Description = "It cuts things",
                     Title = "Saw",
                     Quantity = 18,
@@ -167,22 +260,62 @@ namespace Bangazon.Data {
                 new Product()
                 {
                     ProductId = 4,
-                    ProductTypeId = 3,
-                    UserId = user.Id,
-                    Description = "It puts holes in things",
-                    Title = "Electric Drill",
-                    Quantity = 12,
-                    Price = 24.89
+                    ProductTypeId = 6,
+                    UserId = user3.Id,
+                    Description = "It stops scurvy",
+                    Title = "Toothpaste",
+                    Quantity = 50,
+                    Price = 7.99
                 },
                 new Product()
                 {
                     ProductId = 5,
-                    ProductTypeId = 3,
-                    UserId = user.Id,
-                    Description = "It puts things together",
-                    Title = "Hammer",
+                    ProductTypeId = 2,
+                    UserId = user3.Id,
+                    Description = "It rolls!",
+                    Title = "Cinnamon Rolls",
+                    Quantity = 1000,
+                    Price = 99.99
+                },
+                new Product()
+                {
+                    ProductId = 6,
+                    ProductTypeId = 10,
+                    UserId = user4.Id,
+                    Description = "It is indestructible (almost)",
+                    Title = "Cyber Truck",
+                    Quantity = 18,
+                    Price = 9999.99
+                },
+                new Product()
+                {
+                    ProductId = 7,
+                    ProductTypeId = 9,
+                    UserId = user4.Id,
+                    Description = "Go like never before!",
+                    Title = "Skechers",
+                    Quantity = 30,
+                    Price = 24.89
+                },
+                new Product()
+                {
+                    ProductId = 8,
+                    ProductTypeId = 4,
+                    UserId = user5.Id,
+                    Description = "Don't try this at home.",
+                    Title = "Twister",
                     Quantity = 32,
                     Price = 22.69
+                },
+                new Product()
+                {
+                    ProductId = 9,
+                    ProductTypeId = 5,
+                    UserId = user5.Id,
+                    Description = "It gets banged on (with drumsticks)",
+                    Title = "Drumset",
+                    Quantity = 10,
+                    Price = 475.99
                 }
             );
 
@@ -190,8 +323,14 @@ namespace Bangazon.Data {
                 new Order()
                 {
                     OrderId = 1,
-                    UserId = user.Id,
-                    PaymentTypeId = null
+                    UserId = user2.Id,
+                    PaymentTypeId = 3
+                },
+                new Order()
+                {
+                    OrderId = 2,
+                    UserId = user3.Id,
+                    PaymentTypeId = 4
                 }
             );
 
@@ -200,7 +339,7 @@ namespace Bangazon.Data {
                 {
                     OrderProductId = 1,
                     OrderId = 1,
-                    ProductId = 1
+                    ProductId = 9
                 }
             );
 
@@ -208,8 +347,8 @@ namespace Bangazon.Data {
                 new OrderProduct()
                 {
                     OrderProductId = 2,
-                    OrderId = 1,
-                    ProductId = 2
+                    OrderId = 2,
+                    ProductId = 7
                 }
             );
         }
