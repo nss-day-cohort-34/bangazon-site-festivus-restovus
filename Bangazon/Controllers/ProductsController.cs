@@ -39,7 +39,7 @@ namespace Bangazon.Controllers
                     TypeName = pt.Label,
                     ProductCount = pt.Products.Count(),
                     Products = pt.Products.OrderByDescending(p => p.DateCreated).Take(3)
-                }).ToListAsync();
+                }).Where(pt => pt.ProductCount > 0).ToListAsync();
 
             return View(model);
         }
