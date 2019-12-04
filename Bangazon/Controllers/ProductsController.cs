@@ -75,6 +75,21 @@ namespace Bangazon.Controllers
 
             return View(model);
         }
+        //method to view my products
+        public async Task<IActionResult> MyProductsList()
+        {
+            var model = new MyProductsViewModel();
+
+            var user = await GetCurrentUserAsync();
+            var myProducts = _context.Product
+                                        .Include(p => p.User)
+                                        .Where(p => p.UserId == user.Id);
+
+            return View(await myProducts.ToListAsync());
+        }
+
+
+
 
         // GET: Products/Create
         public IActionResult Create()
