@@ -21,9 +21,11 @@
         @foreach (var groupedProduct in Model.GroupedProducts)
         {
             <tr>
-                <a>
-                    @Html.DisplayFor(modelItem => groupedProduct.TypeName)
-                </a>
+                <th>
+                    <a asp-action="Details" asp-controller="ProductTypes" asp-route-id="@groupedProduct.TypeId">
+                        @Html.DisplayFor(modelItem => groupedProduct.TypeName)
+                    </a>
+                </th>
                 <td>
                     @Html.DisplayFor(modelItem => groupedProduct.ProductCount)
                 </td>
@@ -32,7 +34,7 @@
             {
                 <tr>
                     <td>
-                        <a asp-action="Details" asp-route-id="@product.ProductId">
+                        <a asp-action="Details" asp-controller="Products" asp-route-id="@product.ProductId">
                             @Html.DisplayFor(modelItem => product.Title)
                         </a>
                     </td>
