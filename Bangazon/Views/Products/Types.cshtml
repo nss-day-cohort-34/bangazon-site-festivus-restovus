@@ -21,9 +21,9 @@
         @foreach (var groupedProduct in Model.GroupedProducts)
         {
             <tr>
-                <th>
+                <a>
                     @Html.DisplayFor(modelItem => groupedProduct.TypeName)
-                </th>
+                </a>
                 <td>
                     @Html.DisplayFor(modelItem => groupedProduct.ProductCount)
                 </td>
@@ -39,7 +39,6 @@
                 </tr>
             }
         }
-
     </tbody>
 </table>
 
