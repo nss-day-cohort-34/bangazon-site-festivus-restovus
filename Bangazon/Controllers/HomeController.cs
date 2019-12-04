@@ -24,14 +24,21 @@ namespace Bangazon.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var applicationDbContext = await _context.Product.Include(p => p.ProductType)
+                var applicationDbContext =  await from p in _context.Product.Include(p => p.ProductType)
+                                                                .Include(p => p.City)
                                                              .Include(p => p.User)
                                                              .OrderByDescending(p => p.DateCreated)
                                                              .Take(20)
-                                                             .ToListAsync();
-            return View(applicationDbContext);
+                                                             .ToListAsync()
+                                                                select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                applicationDbContext = applicationDbContext.Where(p => p.City.Contains(searchString));
+            }
+
+            return View(await applicationDbContext.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
