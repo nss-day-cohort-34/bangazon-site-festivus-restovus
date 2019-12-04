@@ -7,17 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bangazon.Data;
 using Bangazon.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bangazon.Controllers
 {
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        
+        private readonly UserManager<ApplicationUser> _userManager;
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-        public OrdersController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
+
+   
 
         // GET: Orders
         public async Task<IActionResult> Index()
@@ -127,6 +134,33 @@ namespace Bangazon.Controllers
             return View(order);
         }
 
+        public async Task<IActionResult> AddToCart(int? id)
+        {
+            //get product by id
+            var productId = id;
+
+            //check for existing open order for current user
+            var user = await GetCurrentUserAsync();
+            var order = await _context.Order
+                .Where(o => o.PaymentTypeId == null)
+                .FirstOrDefaultAsync(m => m.UserId == user.Id);
+            if (ModelState.IsValid)
+            {
+                
+                _context.Add(order);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(order);
+            //if there is an existing order, get orderId
+            //if no order, use from create method to make new order with scalar command
+            //take product id and add both id's to orderproduct table
+            //redirect to view of cart
+
+            //return View(order);
+
+        }
        
 
         // GET: Orders/Delete/5
@@ -136,7 +170,6 @@ namespace Bangazon.Controllers
             {
                 return NotFound();
             }
-
             var order = await _context.Order
                 .Include(o => o.PaymentType)
                 .Include(o => o.User)
