@@ -81,14 +81,13 @@ namespace Bangazon.Controllers
             var model = new MyProductsViewModel();
 
             var user = await GetCurrentUserAsync();
-            var myProducts = _context.Product
+            
+            var myProducts = await _context.Product
                                         .Include(p => p.User)
-                                        .Where(p => p.UserId == user.Id);
-
-            return View(await myProducts.ToListAsync());
+                                        .Where(p => p.UserId == user.Id).ToListAsync();
+            model.Products = myProducts;
+            return View(model);
         }
-
-
 
 
         // GET: Products/Create
