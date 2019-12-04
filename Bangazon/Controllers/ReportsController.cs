@@ -36,13 +36,18 @@ namespace Bangazon.Controllers
         public async Task<IActionResult> IncompleteOrders()
         {
             var user = await GetCurrentUserAsync();
+            ViewData["UserId"] = user.Id;
             var viewModel = new IncompleteOrderViewModel();
 
-            viewModel.Orders = await _context.Order
+            // Gets all the incomplete orders from the database
+            var allIncompleteOrders = await _context.Order
+                .Where(o => o.DateCompleted == null)
                 .Include(o => o.User)
                 .Include(o => o.OrderProducts)
                     .ThenInclude(o => o.Product)
                 .ToListAsync();
+
+            viewModel.Orders = allIncompleteOrders;
 
             return View(viewModel);
         }
