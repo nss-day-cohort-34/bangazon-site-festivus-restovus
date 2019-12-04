@@ -7,23 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bangazon.Data;
 using Bangazon.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bangazon.Controllers
 {
     public class ReportsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReportsController(ApplicationDbContext context)
+        public ReportsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Reports
         public async Task<IActionResult> Index()
         {
             var order = _context.Order.Include(o => o.PaymentType).Include(o => o.User).FirstOrDefaultAsync();
             return View(await order);
+        }
+
+        // Get the incomplete orders that have products the current user is selling and display their information
+        public async Task<IActionResult> IncompleteOrders()
+        {
+
         }
 
         // GET: Reports/Details/5
