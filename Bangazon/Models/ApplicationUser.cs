@@ -13,7 +13,7 @@ namespace Bangazon.Models
         }
 
         [Required]
-        [Display(Name ="First Name")]
+        [Display(Name ="First Name")] 
         public string FirstName { get; set; }
 
         [Required]
@@ -22,8 +22,8 @@ namespace Bangazon.Models
 
         [Required]
         public string StreetAddress { get; set; }
-        
-        public virtual ICollection<Product> Products { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; } 
 
         public virtual ICollection<Order> Orders { get; set; }
 
