@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Bangazon.Data;
 using Bangazon.Models;
 using Microsoft.AspNetCore.Identity;
+using Bangazon.Models.OrderViewModels;
 
 namespace Bangazon.Controllers
 {
@@ -34,7 +35,16 @@ namespace Bangazon.Controllers
         // Get the incomplete orders that have products the current user is selling and display their information
         public async Task<IActionResult> IncompleteOrders()
         {
+            var user = await GetCurrentUserAsync();
+            var viewModel = new IncompleteOrderViewModel();
 
+            viewModel.Orders = await _context.Order
+                .Include(o => o.User)
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(o => o.Product)
+                .ToListAsync();
+
+            return View(viewModel);
         }
 
         // GET: Reports/Details/5
