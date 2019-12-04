@@ -9,20 +9,22 @@ namespace Bangazon.Models
     public class Product
     {
         [Key]
-        public int ProductId {get;set;}
+        public int ProductId { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [Display(Name="Date Created")]
-        public DateTime DateCreated {get;set;}
+        [Display(Name = "Date Created")]
+        public DateTime DateCreated { get; set; }
 
         [Required]
         [StringLength(255)]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$", ErrorMessage = "No special characters.")]
         public string Description { get; set; }
 
         [Required]
-        [StringLength(55, ErrorMessage="Please shorten the product title to 55 characters")]
+        [StringLength(55, ErrorMessage = "Please shorten the product title to 55 characters")]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$", ErrorMessage = "No special characters.")]
         public string Title { get; set; }
 
         [Required]
@@ -33,11 +35,11 @@ namespace Bangazon.Models
         public int Quantity { get; set; }
 
         [Required]
-        public string UserId {get; set;}
+        public string UserId { get; set; }
 
-        public string City {get; set;}
+        public string City { get; set; }
         [Display(Name = "Image")]
-        public string ImagePath {get; set;}
+        public string ImagePath { get; set; }
 
         public bool Active { get; set; }
 
@@ -46,14 +48,14 @@ namespace Bangazon.Models
         public ApplicationUser User { get; set; }
 
         [Required]
-        [Display(Name="Product Category")]
+        [Display(Name = "Product Category")]
         public int ProductTypeId { get; set; }
         [Display(Name = "Category")]
         public ProductType ProductType { get; set; }
 
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
 
-        public Product ()
+        public Product()
         {
             Active = true;
         }
