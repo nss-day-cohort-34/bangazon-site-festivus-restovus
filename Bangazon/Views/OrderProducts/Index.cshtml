@@ -1,0 +1,24 @@
+﻿@model Bangazon.Models.Order
+
+@{
+    ViewData["Title"] = "Order";
+}
+
+<h1>My Cart</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Model.User.FirstName @Model.User.LastName - Order @Model.OrderId</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderProduct in Model.OrderProducts)
+                {
+
+                        <tr>
+                            <td>@orderProduct.Product.Title</td>
+                        </tr>
+                }
+            </tbody>
+        </table>
