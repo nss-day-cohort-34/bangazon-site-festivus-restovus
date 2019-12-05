@@ -349,6 +349,5 @@ namespace Bangazon.Data {
             );
         }
 
-        public DbSet<Bangazon.Models.Account> Account { get; set; }
     }
 }
