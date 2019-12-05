@@ -134,7 +134,7 @@ namespace Bangazon.Controllers
             return View(order);
         }
 
-        public async Task<IActionResult> AddToCart(int? id)
+        public async Task<IActionResult> AddToCart(int id)
         {
             //get product by id
             var productId = id;
@@ -142,17 +142,45 @@ namespace Bangazon.Controllers
             //check for existing open order for current user
             var user = await GetCurrentUserAsync();
             var order = await _context.Order
-                .Where(o => o.PaymentTypeId == null)
+                .Where(o => o.DateCompleted == null)
                 .FirstOrDefaultAsync(m => m.UserId == user.Id);
-            if (ModelState.IsValid)
+            if (order != null)
             {
+                var orderProduct = new OrderProduct
+                {
+                    OrderId = order.OrderId,
+                    ProductId = productId
+                };
                 
-                _context.Add(order);
+                _context.Add(orderProduct);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","OrderProducts");
             }
+            else
+            {
+                var newOrder = new Order
+                {
+                    UserId = user.Id
+                };
 
-            return View(order);
+                _context.Add(newOrder);
+                await _context.SaveChangesAsync();
+
+                order = await _context.Order
+                .Where(o => o.DateCompleted == null)
+                .FirstOrDefaultAsync(m => m.UserId == user.Id);
+
+                var orderProduct = new OrderProduct
+                {
+                    OrderId = order.OrderId,
+                    ProductId = productId
+                };
+
+                _context.Add(orderProduct);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "OrderProducts");
+            }
+            
             //if there is an existing order, get orderId
             //if no order, use from create method to make new order with scalar command
             //take product id and add both id's to orderproduct table

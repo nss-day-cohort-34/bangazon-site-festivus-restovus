@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bangazon.Data;
 using Bangazon.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bangazon.Controllers
 {
@@ -14,16 +15,29 @@ namespace Bangazon.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public OrderProductsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        public OrderProductsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
+
 
         // GET: OrderProducts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.OrderProduct.Include(o => o.Order).Include(o => o.Product);
-            return View(await applicationDbContext.ToListAsync());
+            var user = await GetCurrentUserAsync();
+            var applicationDbContext = await _context.Order
+                .Where(o => o.DateCompleted == null)
+                .Include(o => o.User)
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(o => o.Product)
+                .Where(o => o.UserId == user.Id)
+                .FirstOrDefaultAsync();
+
+            return View(applicationDbContext);
         }
 
         // GET: OrderProducts/Details/5
