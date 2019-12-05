@@ -18,6 +18,7 @@
 
                         <tr>
                             <td>@orderProduct.Product.Title</td>
+                            <td><a asp-action="Delete" asp-controller="OrderProducts" asp-route-id="@orderProduct.OrderProductId">Delete</a></td>
                         </tr>
                 }
             </tbody>
