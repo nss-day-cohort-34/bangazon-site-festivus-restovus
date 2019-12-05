@@ -199,8 +199,7 @@ namespace Bangazon.Controllers
                 return NotFound();
             }
             var order = await _context.Order
-                .Include(o => o.PaymentType)
-                .Include(o => o.User)
+                
                 .FirstOrDefaultAsync(m => m.OrderId == id);
             if (order == null)
             {
