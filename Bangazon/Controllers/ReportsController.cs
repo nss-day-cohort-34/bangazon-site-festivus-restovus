@@ -9,6 +9,8 @@ using Bangazon.Data;
 using Bangazon.Models;
 using Microsoft.AspNetCore.Identity;
 using Bangazon.Models.OrderViewModels;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace Bangazon.Controllers
 {
@@ -16,11 +18,22 @@ namespace Bangazon.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _config;
 
-        public ReportsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public SqlConnection Connection
+        {
+            get
+            {
+                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            }
+        }
+
+        public ReportsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IConfiguration config)
         {
             _context = context;
             _userManager = userManager;
+            _config = config;
+
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
@@ -52,10 +65,62 @@ namespace Bangazon.Controllers
             return View(viewModel);
         }
 
-
-        private bool OrderExists(int id)
+        // Get users with multiple orders.
+        public async Task<IActionResult> UsersWithMultipleOrders()
         {
-            return _context.Order.Any(e => e.OrderId == id);
+            var model = new UsersWithMultipleOrdersViewModel();
+
+            //model.Users = await _context
+            //    .ApplicationUsers
+            //    .Include(a => a.Orders)
+            //    .Where(a => a.Orders.Count > 1 && (a.PaymentTypes == null)) 
+            //    .ToListAsync();
+
+            model.Orders = await _context.Order
+                .Include(o => o.User)
+                .Where(o => o.PaymentTypeId == null)
+                .ToListAsync();
+            
+
+            return View(model);
+        }
+
+            //return View(model);
+            //using (SqlConnection conn = Connection)
+            //{
+            //    conn.Open();
+            //    using (SqlCommand cmd = conn.CreateCommand())
+            //    {
+            //        cmd.CommandText = @"
+            //            select a.FirstName, a.LastName, COUNT(o.UserId) as OpenOrders from AspNetUsers a
+            //            left join [Order] o 
+            //            on o.UserId = a.Id
+            //            where o.PaymentTypeId is null
+            //            group by a.FirstName, a.LastName";
+            //        SqlDataReader reader = cmd.ExecuteReader();
+
+            //        var users = new List<ApplicationUser>();
+            //        while (reader.Read())
+            //        {
+            //            users.Add(new ApplicationUser
+            //            {
+            //                Id = reader.GetString(reader.GetOrdinal("Id")),
+            //                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+            //                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+            //                Orders = reader.GetInt32(reader.GetOrdinal("OpenOrders"))
+            //            });
+            //        }
+
+            //        reader.Close();
+
+            //        return users;
+            //    }
+            //}
+
+
+            private bool OrderExists(int id)
+            {
+                return _context.Order.Any(e => e.OrderId == id);
+            }
         }
     }
-}

@@ -1,0 +1,10 @@
+﻿@model Bangazon.Models.OrderViewModels.UsersWithMultipleOrdersViewModel
+@{
+    ViewData["Title"] = "UsersWithMultipleOrders";
+}
+
+<h1>Users With Multiple Orders</h1>
+@foreach (var item in Model.Orders)
+{
+    <p>@Html.DisplayFor(modelItem => item.User.FirstName)</p>
+}
