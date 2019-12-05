@@ -1,0 +1,24 @@
+﻿@model Bangazon.Models.ProductViewModels.AbandonedTypesViewModel
+
+@{
+    ViewData["Title"] = "AbandonedProductTypes";
+}
+
+<h1>Abandoned Products By Category</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Number Incomplete</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ProductTypeCounts) {
+        <tr>
+            <td>@item.Key</td>
+            <td>@item.Value</td>
+        </tr>
+}
+    </tbody>
+</table>
