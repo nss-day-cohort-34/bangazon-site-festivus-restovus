@@ -22,3 +22,11 @@
                 }
             </tbody>
         </table>
+
+@*button to go to checkout view*@
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="OrderId" />
+            <input type="submit" value="Proceed to checkout" class="btn btn-danger" /> 
+            @*<a asp-action="Index">Back to List</a>*@
+        </form>
+
