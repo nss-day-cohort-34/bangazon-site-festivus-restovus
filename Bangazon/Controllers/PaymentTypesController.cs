@@ -16,7 +16,7 @@ namespace Bangazon.Controllers
     public class PaymentTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager; 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         public PaymentTypesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
