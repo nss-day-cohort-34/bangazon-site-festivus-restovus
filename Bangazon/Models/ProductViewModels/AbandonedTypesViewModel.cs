@@ -7,6 +7,6 @@ namespace Bangazon.Models.ProductViewModels
 {
     public class AbandonedTypesViewModel
     {
-        public Dictionary<string, int> ProductTypeCounts { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> ProductTypeCounts { get; set; }
     }
 }
