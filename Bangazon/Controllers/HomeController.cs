@@ -26,16 +26,14 @@ namespace Bangazon.Controllers
         }
         public async Task<IActionResult> Index(string searchString)
         {
-                var applicationDbContext =  await from p in _context.Product.Include(p => p.ProductType)
-                                                                .Include(p => p.City)
-                                                             .Include(p => p.User)
-                                                             .OrderByDescending(p => p.DateCreated)
-                                                             .Take(20)
-                                                             .ToListAsync()
-                                                                select p;
+            var applicationDbContext = _context.Product.Include(p => p.ProductType)
+                                                         .Include(p => p.User)
+                                                         .OrderByDescending(p => p.DateCreated)
+                                                         .Take(20);
+                                                         //.ToListAsync();
             if (!String.IsNullOrEmpty(searchString))
             {
-                applicationDbContext = applicationDbContext.Where(p => p.City.Contains(searchString));
+                applicationDbContext = _context.Product.Where(p => p.City.ToLower().Contains(searchString));
             }
 
             return View(await applicationDbContext.ToListAsync());
