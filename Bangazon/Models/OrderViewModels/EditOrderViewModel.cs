@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bangazon.Models.OrderViewModels
 {
-    public class CreateOrderViewModel
+    public class EditOrderViewModel
     {
         public int OrderId { get; set; }
         public string UserId { get; set; }

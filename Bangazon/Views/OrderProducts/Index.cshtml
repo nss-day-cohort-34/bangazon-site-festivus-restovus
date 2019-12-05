@@ -24,8 +24,13 @@
         </table>
 
 @*button to go to checkout view*@
+
+<a asp-action="Edit" asp-route-id="@Model.OrderId" >Proceed To Checkout</a>
+
+<button asp-action="Edit" asp-route-id="@Model.OrderId"  type="submit" class="btn btn-danger">Proceed to checkout</button>
+
         <form asp-action="Edit">
-            <input type="hidden" asp-for="OrderId" />
+            <input type="hidden" asp-for="OrderProducts" />
             <input type="submit" value="Proceed to checkout" class="btn btn-danger" /> 
             @*<a asp-action="Index">Back to List</a>*@
         </form>
