@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Bangazon.Data;
 using Bangazon.Models;
 using Microsoft.AspNetCore.Identity;
+using Bangazon.Models.OrderViewModels;
 
 namespace Bangazon.Controllers
 {
@@ -82,19 +83,23 @@ namespace Bangazon.Controllers
         // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var model = new EditOrderViewModel();
+
             if (id == null)
             {
                 return NotFound();
             }
 
             var order = await _context.Order.FindAsync(id);
+            model.Order = order;
+
             if (order == null)
             {
                 return NotFound();
             }
             ViewData["PaymentTypeId"] = new SelectList(_context.PaymentType, "PaymentTypeId", "AccountNumber", order.PaymentTypeId);
             ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", order.UserId);
-            return View(order);
+            return View(model);
         }
 
         // POST: Orders/Edit/5
