@@ -9,6 +9,7 @@ using Bangazon.Data;
 using Bangazon.Models;
 using Microsoft.AspNetCore.Identity;
 using Bangazon.Models.OrderViewModels;
+using Bangazon.Models.ProductViewModels;
 
 namespace Bangazon.Controllers
 {
@@ -56,6 +57,46 @@ namespace Bangazon.Controllers
         private bool OrderExists(int id)
         {
             return _context.Order.Any(e => e.OrderId == id);
+        }
+
+        public async Task<IActionResult> AbandonedProductTypes()
+        {
+            var viewModel = new AbandonedTypesViewModel
+            {
+                ProductTypeCounts = new Dictionary<string, int>()
+            };
+
+            var productTypes = await _context.ProductType.ToListAsync();
+
+            // Add all the productType labels to the dictionary (key = productType name, value = 0)
+            foreach (ProductType pt in productTypes)
+            {
+                viewModel.ProductTypeCounts.Add(pt.Label, 0);
+            }
+
+            // Get all the incomplete orders from the database, including all of the products that are on them
+            // Gets all the incomplete orders from the database
+            var allIncompleteOrders = await _context.Order
+                .Where(o => o.DateCompleted == null)
+                .Include(o => o.User)
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(o => o.Product)
+                        .ThenInclude(o => o.ProductType)
+                .ToListAsync();
+            // Iterate through all of the products on all of the incomplete orders and increment the counter for the appropriate ProductType
+            foreach(var order in allIncompleteOrders)
+            {
+                foreach(OrderProduct orderProduct in order.OrderProducts)
+                {
+                    viewModel.ProductTypeCounts[orderProduct.Product.ProductType.Label] += 1;
+                }
+            }
+            // Sort the dictionary and get the top 5 most abandoned ProductTypes
+            viewModel.ProductTypeCounts = viewModel.ProductTypeCounts.OrderByDescending(c => c.Value)
+                .Take(5)
+                .ToDictionary(c => c.Key, c => c.Value);
+
+            return View(viewModel);
         }
     }
 }
